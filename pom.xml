@@ -1,0 +1,171 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.snapgames.gdj</groupId>
+	<artifactId>gdj104</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>GDJ104</name>
+	<description>The basics for the Game development on the java platform</description>
+	<url>https://github.com/SnapGames/GDJ104</url>
+	<inceptionYear>2017</inceptionYear>
+
+	<contributors>
+		<contributor>
+			<name>Frédéric Delorme</name>
+			<email>frederic.delorme@snapgames.fr</email>
+			<organization>SnapGames</organization>
+			<organizationUrl>http://snapgames.fr</organizationUrl>
+			<timezone>Europe/Paris</timezone>
+			<roles>
+				<role>GameDev utopist</role>
+			</roles>
+		</contributor>
+	</contributors>
+
+	<organization>
+		<url>http://snapgames.github.io</url>
+		<name>SnapGames</name>
+	</organization>
+	<scm>
+		<url>http://snapgames.github.io</url>
+		<connection>scm:git:https://github.com/SnapGames/GDJ104.git</connection>
+		<developerConnection>scm:git:https://github.com/SnapGames/GDJ104.git</developerConnection>
+		<tag>${project.version}</tag>
+	</scm>
+	<issueManagement>
+		<system>Github issues</system>
+		<url>https://github.com/SnapGames/GDJ104/issues</url>
+	</issueManagement>
+	<ciManagement>
+		<url>https://travis-ci.org/SnapGames/GDJ104</url>
+		<system>Travis-CI</system>
+	</ciManagement>
+
+	<properties>
+		<mainClass>com.snapgames.gdj.gdj104.Game</mainClass>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.7.0</version>
+				<configuration>
+					<!-- http://maven.apache.org/plugins/maven-compiler-plugin/ -->
+					<source>1.8</source>
+					<target>1.8</target>
+					<encoding>utf-8</encoding>
+				</configuration>
+			</plugin>
+			<!-- Build the minimalist JAR without dependencies (Normal Edition) -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>3.0.2</version>
+				<configuration>
+					<archive>
+						<index>true</index>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<mainClass>${mainClass}</mainClass>
+						</manifest>
+					</archive>
+					<encoding>utf-8</encoding>
+				</configuration>
+			</plugin>
+			<!-- Package a jar with Sources -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>3.0.1</version>
+				<configuration>
+					<enconding>utf-8</enconding>
+				</configuration>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- Prepare Javadoc with a specific Markdown docklet -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-javadoc-plugin</artifactId>
+				<version>2.10.4</version>
+				<configuration>
+					<enconding>utf-8</enconding>
+					<stylesheet>maven</stylesheet>
+					<overview>${project.basedir}/README.md</overview>
+					<doclet>ch.raffael.doclets.pegdown.PegdownDoclet</doclet>
+					<docletArtifact>
+						<groupId>ch.raffael.pegdown-doclet</groupId>
+						<artifactId>pegdown-doclet</artifactId>
+						<version>1.1</version>
+					</docletArtifact>
+					<useStandardDocletOptions>true</useStandardDocletOptions>
+				</configuration>
+				<executions>
+					<execution>
+						<id>attach-javadocs</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<!-- Package a One full of dependencies JAR (Buffed Edition) -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>3.1.0</version>
+				<configuration>
+					<encoding>utf-8</encoding>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<mainClass>${mainClass}</mainClass>
+						</manifest>
+					</archive>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-my-jar-with-dependencies</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.6.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>java</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<mainClass>${mainClass}</mainClass>
+					<arguments>
+						<argument>foo</argument>
+						<argument>bar</argument>
+					</arguments>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
