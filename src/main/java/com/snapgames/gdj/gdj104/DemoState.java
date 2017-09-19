@@ -4,6 +4,7 @@
 package com.snapgames.gdj.gdj104;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import com.snapgames.gdj.gdj104.core.InputHandler;
 import com.snapgames.gdj.gdj104.core.RenderHelper;
 import com.snapgames.gdj.gdj104.core.state.AbstractGameState;
 import com.snapgames.gdj.gdj104.core.state.GameState;
+import com.snapgames.gdj.gdj104.core.state.GameStateManager;
 
 /**
  * @author frederic
@@ -30,6 +32,19 @@ public class DemoState extends AbstractGameState implements GameState {
 	// list of other entities to demonstrate GameObject usage.
 	private List<GameObject> entities = new ArrayList<>();
 
+	/**
+	 * Flag to display Help.
+	 */
+	private boolean isHelp = false;
+
+	private GameStateManager gsm = null;
+
+	private Font font, debugFont;
+
+	public DemoState(GameStateManager gsm) {
+		this.gsm = gsm;
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -39,6 +54,7 @@ public class DemoState extends AbstractGameState implements GameState {
 	 */
 	@Override
 	public void initialize(Game game) {
+		debugFont = game.getRender().getFont().deriveFont(9f);
 
 		// prepare Game objects
 		player = new GameObject("player", game.getWidth() / 2, game.getHeight() / 2, 32, 32, 1, 1, Color.BLUE);
@@ -79,23 +95,20 @@ public class DemoState extends AbstractGameState implements GameState {
 	 */
 	@Override
 	public void input(Game game, InputHandler input) {
-		KeyEvent k = input.getEvent();
-		if (k != null) {
-			switch (k.getKeyCode()) {
-			case KeyEvent.VK_1:
-				layers[0] = !layers[0];
-				break;
-			case KeyEvent.VK_NUMPAD2:
-			case KeyEvent.VK_2:
-				layers[1] = !layers[1];
-				break;
-			case KeyEvent.VK_NUMPAD3:
-			case KeyEvent.VK_3:
-				layers[2] = !layers[2];
-				break;
-			default:
-				break;
-			}
+		if (input.getKeyReleased(KeyEvent.VK_NUMPAD1) 
+				|| input.getKeyReleased(KeyEvent.VK_1)) {
+			layers[0] = !layers[0];
+		} else if (input.getKeyReleased(KeyEvent.VK_NUMPAD2) 
+				|| input.getKeyReleased(KeyEvent.VK_2)) {
+
+			layers[1] = !layers[1];
+		} else if (input.getKeyReleased(KeyEvent.VK_NUMPAD3) 
+				|| input.getKeyReleased(KeyEvent.VK_3)) {
+
+			layers[2] = !layers[2];
+
+		} else if (input.getKeyReleased(KeyEvent.VK_H)) {
+			isHelp = !isHelp;
 		}
 		inputPlayer(input);
 	}
@@ -183,11 +196,16 @@ public class DemoState extends AbstractGameState implements GameState {
 				if (layers[o.layer - 1]) {
 					o.draw(game, g);
 					if (game.isDebug()) {
-						RenderHelper.drawDebug(g, o);
+						RenderHelper.drawDebug(g, o, debugFont);
 					}
 				}
 			}
 		}
+		// display Help if requested
+		if (isHelp) {
+			displayHelp(this.gsm.getGame(), g, 10, 20);
+		}
+
 	}
 
 	/**
@@ -195,6 +213,27 @@ public class DemoState extends AbstractGameState implements GameState {
 	 */
 	public boolean[] getLayers() {
 		return layers;
+	}
+
+	public void displayHelp(Game game, Graphics2D g, int x, int y) {
+		g.setColor(new Color(.5f, .5f, .5f, .3f));
+		g.fillRect(x - 10, y - 16, 248, 132);
+		g.setColor(Color.WHITE);
+		RenderHelper.drawShadowString(g, "[" + RenderHelper.showBoolean(layers[0]) + "] 1: show/hide layer 1", x, y,
+				Color.WHITE, Color.BLACK);
+		RenderHelper.drawShadowString(g, "[" + RenderHelper.showBoolean(layers[1]) + "] 2: show/hide layer 2", x,
+				y + 16, Color.WHITE, Color.BLACK);
+		RenderHelper.drawShadowString(g, "[" + RenderHelper.showBoolean(layers[2]) + "] 3: show/hide layer 3", x,
+				y + 32, Color.WHITE, Color.BLACK);
+		RenderHelper.drawShadowString(g, "[" + RenderHelper.showBoolean(game.isDebug()) + "] D: display debug info", x,
+				y + 48, Color.WHITE, Color.BLACK);
+		RenderHelper.drawShadowString(g,
+				"[" + RenderHelper.showBoolean(game.isPause()) + "] P/PAUSE: pause the computation", x, y + 64,
+				Color.WHITE, Color.BLACK);
+		RenderHelper.drawShadowString(g, "[" + RenderHelper.showBoolean(isHelp) + "] H: display this help", x, y + 80,
+				Color.WHITE, Color.BLACK);
+		RenderHelper.drawShadowString(g, "   CTRL+S: save a screenshot", x, y + 96, Color.WHITE, Color.BLACK);
+		RenderHelper.drawShadowString(g, "   Q/ESCAPE: Escape the demo", x, y + 112, Color.WHITE, Color.BLACK);
 	}
 
 }

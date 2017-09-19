@@ -70,11 +70,6 @@ public class Game extends JPanel {
 	private boolean isPause = false;
 
 	/**
-	 * Flag to display Help.
-	 */
-	private boolean isHelp = false;
-
-	/**
 	 * Flag to activate screenshot recording.
 	 */
 	private boolean screenshot = false;
@@ -119,7 +114,7 @@ public class Game extends JPanel {
 
 		font = g.getFont();
 		gsm = new GameStateManager(this);
-		gsm.addState("demo", new DemoState());
+		gsm.addState("demo", new DemoState(gsm));
 
 	}
 
@@ -194,9 +189,6 @@ public class Game extends JPanel {
 			case KeyEvent.VK_D:
 				debug = !debug;
 				break;
-			case KeyEvent.VK_H:
-				isHelp = !isHelp;
-				break;
 			case KeyEvent.VK_S:
 				screenshot = true;
 				break;
@@ -233,11 +225,6 @@ public class Game extends JPanel {
 		if (isPause) {
 			drawPause(g);
 		}
-
-		// display Help if requested
-		if (isHelp) {
-			RenderHelper.displayHelp(this, g, 10, 20);
-		}
 	}
 
 	/**
@@ -260,17 +247,7 @@ public class Game extends JPanel {
 		Font f = font.deriveFont(28.0f).deriveFont(Font.ITALIC);
 
 		g.setFont(f);
-		int lblWidth = g.getFontMetrics().stringWidth(lblPause);
-		int lblHeight = g.getFontMetrics().getHeight();
-		int yPos = (getHeight() - lblHeight) / 2;
-		g.setColor(Color.BLUE);
-		g.fillRect(0, yPos - lblHeight, getWidth(), lblHeight + 8);
-		g.setColor(Color.WHITE);
-		g.drawRect(-1, yPos - lblHeight, getWidth() + 1, lblHeight + 8);
-
-		g.setColor(Color.WHITE);
-		g.getFontMetrics().getHeight();
-		g.drawString(lblPause, (getWidth() - lblWidth) / 2, (getHeight() - lblHeight) / 2);
+		RenderHelper.drawShadowString(g, lblPause, getWidth()/ 2, getHeight() / 2, Color.WHITE, Color.BLACK, RenderHelper.TextPosition.CENTER,3);
 		g.setFont(bck);
 
 	}
@@ -360,11 +337,8 @@ public class Game extends JPanel {
 		return isPause;
 	}
 
-	/**
-	 * @return the help
-	 */
-	public boolean isHelp() {
-		return isHelp;
+	public Graphics2D getRender() {
+		return g;
 	}
 
 	/**
@@ -375,12 +349,8 @@ public class Game extends JPanel {
 	 */
 	public static void main(String[] argv) {
 		Game game = new Game("GDJ104");
-		@SuppressWarnings("unused")
-		Window window = new Window(game);
+		new Window(game);
 		game.run();
 	}
 
-	public Graphics2D getRender() {
-		return g;
-	}
 }

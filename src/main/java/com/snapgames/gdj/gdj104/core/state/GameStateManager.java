@@ -119,4 +119,8 @@ public class GameStateManager {
 		}
 	}
 
+	public Game getGame() {
+		return game;
+	}
+
 }
