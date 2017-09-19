@@ -42,7 +42,7 @@
 	</ciManagement>
 
 	<properties>
-		<mainClass>com.snapgames.gdj.gdj104.Game</mainClass>
+		<mainClass>com.snapgames.gdj.gdj104.core.Game</mainClass>
 	</properties>
 
 	<build>

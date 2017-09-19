@@ -7,12 +7,12 @@
  * 
  * @year 2017
  */
-package com.snapgames.gdj.gdj104.statemachine;
+package com.snapgames.gdj.gdj104.core.state;
 
 import java.awt.Graphics2D;
 
-import com.snapgames.gdj.gdj104.Game;
-import com.snapgames.gdj.gdj104.InputHandler;
+import com.snapgames.gdj.gdj104.core.Game;
+import com.snapgames.gdj.gdj104.core.InputHandler;
 
 /**
  * An interface to design all states

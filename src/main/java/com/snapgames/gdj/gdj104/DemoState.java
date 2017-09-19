@@ -9,8 +9,12 @@ import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.snapgames.gdj.gdj104.statemachine.AbstractGameState;
-import com.snapgames.gdj.gdj104.statemachine.GameState;
+import com.snapgames.gdj.gdj104.core.Game;
+import com.snapgames.gdj.gdj104.core.GameObject;
+import com.snapgames.gdj.gdj104.core.InputHandler;
+import com.snapgames.gdj.gdj104.core.RenderHelper;
+import com.snapgames.gdj.gdj104.core.state.AbstractGameState;
+import com.snapgames.gdj.gdj104.core.state.GameState;
 
 /**
  * @author frederic

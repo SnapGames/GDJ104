@@ -7,14 +7,14 @@
  * 
  * @year 2017
  */
-package com.snapgames.gdj.gdj104.statemachine;
+package com.snapgames.gdj.gdj104.core.state;
 
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-import com.snapgames.gdj.gdj104.Game;
-import com.snapgames.gdj.gdj104.GameObject;
+import com.snapgames.gdj.gdj104.core.Game;
+import com.snapgames.gdj.gdj104.core.GameObject;
 
 /**
  * An Abstract Game State to manage all states of the Game !

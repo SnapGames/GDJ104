@@ -7,7 +7,7 @@
  * 
  * @year 2017
  */
-package com.snapgames.gdj.gdj104;
+package com.snapgames.gdj.gdj104.core;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;

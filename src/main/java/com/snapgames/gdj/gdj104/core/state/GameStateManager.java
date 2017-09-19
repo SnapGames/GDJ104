@@ -1,15 +1,15 @@
 /**
  * 
  */
-package com.snapgames.gdj.gdj104.statemachine;
+package com.snapgames.gdj.gdj104.core.state;
 
 import java.awt.Graphics2D;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.snapgames.gdj.gdj104.Game;
-import com.snapgames.gdj.gdj104.InputHandler;
+import com.snapgames.gdj.gdj104.core.Game;
+import com.snapgames.gdj.gdj104.core.InputHandler;
 
 /**
  * The Game State Manager is the state machine to manage all the states of the

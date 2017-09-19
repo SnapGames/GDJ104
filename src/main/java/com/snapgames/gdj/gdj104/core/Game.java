@@ -7,7 +7,7 @@
  * 
  * @year 2017
  */
-package com.snapgames.gdj.gdj104;
+package com.snapgames.gdj.gdj104.core;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -19,7 +19,8 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
-import com.snapgames.gdj.gdj104.statemachine.GameStateManager;
+import com.snapgames.gdj.gdj104.DemoState;
+import com.snapgames.gdj.gdj104.core.state.GameStateManager;
 
 /**
  * the basic Game container is a JPanel child.
@@ -279,7 +280,7 @@ public class Game extends JPanel {
 	 */
 	private void release() {
 		gsm.dispose();
-		window.frame.dispose();
+		window.getFrame().dispose();
 	}
 
 	/**
