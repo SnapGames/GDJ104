@@ -36,4 +36,4 @@ Import this project as an Existing Maven Project into your prefered IDE,
 
 Have Fun !
 
-[Frédéric Delorme](mailto:contact@snapgames.fr?subject=gdj104 "send a mail to your tutor")
+[SnapGames](mailto:contact@snapgames.fr?subject=gdj104 "send a mail to your tutor")
