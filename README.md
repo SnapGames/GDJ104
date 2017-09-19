@@ -10,22 +10,8 @@ provided by the [SnapGames](http://snapgames.fr) site.
 
 ### Goal
 
-The goal of this sample is to demonstrate usage of GameObject and layers, to render multiple objects on screen with a layer depth of rendering.
-
-<figure>
-  <img src="./src/main/resources/gdj104-sample.jpg" title="Sample gdj104 some game objects"/>
-  <figcaption>figure 1 - the default display for this sample.</figcaption>
-</figure>
-
-<figure>
-  <img src="./src/main/resources/gdj104-sample-debug-mode.jpg" title="debug mode display information about GameObject's"/>
-  <figcaption>figure 2 - the default display for this sample.</figcaption>
-</figure>
-
-<figure>
-  <img src="./src/main/resources/gdj104-sample-pause-mode.jpg" title="Pause mode"/>
-  <figcaption>figure 3 - the default display for this sample.</figcaption>
-</figure>
+The goal of this sample is to implement State machine pattern to manage multiple states of a game. By state, we means Title Scree, Menu Screen ,map screen, level screen, inventory screen, etc ...  
+I think you've understand.
 
 ## Compile
 

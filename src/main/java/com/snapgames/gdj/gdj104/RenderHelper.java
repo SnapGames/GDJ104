@@ -30,14 +30,14 @@ public class RenderHelper {
 		g.setColor(new Color(.5f, .5f, .5f, .3f));
 		g.fillRect(x - 10, y - 16, 248, 132);
 		g.setColor(Color.WHITE);
-		drawShadowString(g, "[" + showBoolean(game.getLayers()[0]) + "] 1: show/hide layer 1", x, y, Color.WHITE,
-				Color.BLACK);
-		drawShadowString(g, "[" + showBoolean(game.getLayers()[1]) + "] 2: show/hide layer 2", x, y + 16, Color.WHITE,
-				Color.BLACK);
-		drawShadowString(g, "[" + showBoolean(game.getLayers()[2]) + "] 3: show/hide layer 3", x, y + 32, Color.WHITE,
-				Color.BLACK);
-		drawShadowString(g, "[" + showBoolean(game.isDebug()) + "] D: display debug info", x, y + 48, Color.WHITE,
-				Color.BLACK);
+//		drawShadowString(g, "[" + showBoolean(game.getLayers()[0]) + "] 1: show/hide layer 1", x, y, Color.WHITE,
+//				Color.BLACK);
+//		drawShadowString(g, "[" + showBoolean(game.getLayers()[1]) + "] 2: show/hide layer 2", x, y + 16, Color.WHITE,
+//				Color.BLACK);
+//		drawShadowString(g, "[" + showBoolean(game.getLayers()[2]) + "] 3: show/hide layer 3", x, y + 32, Color.WHITE,
+//				Color.BLACK);
+//		drawShadowString(g, "[" + showBoolean(game.isDebug()) + "] D: display debug info", x, y + 48, Color.WHITE,
+//				Color.BLACK);
 		drawShadowString(g, "[" + showBoolean(game.isPause()) + "] P/PAUSE: pause the computation", x, y + 64,
 				Color.WHITE, Color.BLACK);
 		drawShadowString(g, "[" + showBoolean(game.isHelp()) + "] H: display this help", x, y + 80, Color.WHITE,
