@@ -14,7 +14,6 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
@@ -32,7 +31,7 @@ public class Game extends JPanel {
 
 	public final static int WIDTH = 320;
 	public final static int HEIGHT = 200;
-	public final static int SCALE = 2;
+	public final static int SCALE = 3;
 
 	/**
 	 * The title for the game instance.
@@ -99,7 +98,8 @@ public class Game extends JPanel {
 		this.title = title;
 		this.dimension = new Dimension(WIDTH * SCALE, HEIGHT * SCALE);
 		exit = false;
-		inputHandler = new InputHandler();
+		gsm = new GameStateManager(this);
+		inputHandler = new InputHandler(gsm);
 	}
 
 	/**
@@ -113,7 +113,6 @@ public class Game extends JPanel {
 		g = image.createGraphics();
 
 		font = g.getFont();
-		gsm = new GameStateManager(this);
 		gsm.addState("demo", new DemoState(gsm));
 
 	}
@@ -152,7 +151,7 @@ public class Game extends JPanel {
 
 		// copy buffer to window.
 		Graphics g2 = this.getGraphics();
-		g2.drawImage(image, 0, 0, null);
+		g2.drawImage(image, 0, 0, WIDTH * SCALE, HEIGHT * SCALE, 0, 0, WIDTH, HEIGHT, Color.BLACK, null);
 		g2.dispose();
 
 		if (screenshot) {
@@ -165,40 +164,7 @@ public class Game extends JPanel {
 	 * Manage Game input.
 	 */
 	private void input() {
-		inputGame();
 		gsm.input(inputHandler);
-	}
-
-	/**
-	 * Manage Input at game level.
-	 */
-	private void inputGame() {
-		// Process keys
-		KeyEvent k = inputHandler.getEvent();
-		if (k != null) {
-			switch (k.getKeyCode()) {
-			case KeyEvent.VK_ESCAPE:
-			case KeyEvent.VK_Q:
-				setExit(true);
-				break;
-			case KeyEvent.VK_PAUSE:
-			case KeyEvent.VK_P:
-				isPause = !isPause;
-				break;
-			case KeyEvent.VK_F9:
-			case KeyEvent.VK_D:
-				debug = !debug;
-				break;
-			case KeyEvent.VK_S:
-				screenshot = true;
-				break;
-			case KeyEvent.VK_NUMPAD1:
-
-			default:
-				break;
-			}
-		}
-
 	}
 
 	/**
@@ -247,7 +213,8 @@ public class Game extends JPanel {
 		Font f = font.deriveFont(28.0f).deriveFont(Font.ITALIC);
 
 		g.setFont(f);
-		RenderHelper.drawShadowString(g, lblPause, getWidth()/ 2, getHeight() / 2, Color.WHITE, Color.BLACK, RenderHelper.TextPosition.CENTER,3);
+		RenderHelper.drawShadowString(g, lblPause, getWidth() / (SCALE * 2), getHeight() / (SCALE * 2), Color.WHITE,
+				Color.BLACK, RenderHelper.TextPosition.CENTER, 3);
 		g.setFont(bck);
 
 	}
@@ -351,6 +318,24 @@ public class Game extends JPanel {
 		Game game = new Game("GDJ104");
 		new Window(game);
 		game.run();
+	}
+
+	public int getScale() {
+		return SCALE;
+	}
+
+	public void requestPause() {
+		isPause = !isPause;
+
+	}
+
+	public void setDebug(boolean b) {
+		debug = b;
+	}
+
+	public void captureScreenshot() {
+		screenshot = true;
+
 	}
 
 }

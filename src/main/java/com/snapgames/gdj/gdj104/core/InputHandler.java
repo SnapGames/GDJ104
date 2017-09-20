@@ -13,6 +13,8 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.Stack;
 
+import com.snapgames.gdj.gdj104.core.state.GameStateManager;
+
 /**
  * InputHandler
  * 
@@ -25,6 +27,11 @@ public class InputHandler implements KeyListener {
 	boolean[] keysPrevious = new boolean[256];
 
 	Stack<KeyEvent> events = new Stack<>();
+	private GameStateManager gsm;
+
+	public InputHandler(GameStateManager gsm) {
+		this.gsm = gsm;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -33,6 +40,7 @@ public class InputHandler implements KeyListener {
 	 */
 	@Override
 	public void keyTyped(KeyEvent e) {
+		gsm.keyTyped(e);
 	}
 
 	/*
@@ -46,6 +54,7 @@ public class InputHandler implements KeyListener {
 		events.push(e);
 		keysPrevious[e.getKeyCode()] = keys[e.getKeyCode()];
 		keys[e.getKeyCode()] = true;
+		gsm.keyPressed(e);
 	}
 
 	/*
@@ -57,6 +66,8 @@ public class InputHandler implements KeyListener {
 	public void keyReleased(KeyEvent e) {
 		keysPrevious[e.getKeyCode()] = keys[e.getKeyCode()];
 		keys[e.getKeyCode()] = false;
+		gsm.keyReleased(e);
+
 	}
 
 	/**

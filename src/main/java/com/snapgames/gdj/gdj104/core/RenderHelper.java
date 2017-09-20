@@ -51,7 +51,7 @@ public class RenderHelper {
 		int i = 0;
 		for (Object o : objects) {
 			helps[i] = o.toString();
-			drawShadowString(g, helps[i], x + 5, y + i * fm.getHeight(), Color.WHITE, Color.BLACK);
+			drawShadowString(g, helps[i], x + 5, y + i * fm.getHeight(), Color.WHITE, Color.BLACK,TextPosition.LEFT,2);
 			i++;
 		}
 
@@ -113,10 +113,8 @@ public class RenderHelper {
 	public static void drawShadowString(Graphics2D g, String text, int x, int y, Color front, Color back,
 			TextPosition txtPos, int border) {
 		int textWidth = g.getFontMetrics().stringWidth(text);
-		int textHeight = g.getFontMetrics().getHeight();
 		switch (txtPos) {
 		case LEFT:
-			x = x;
 			break;
 		case RIGHT:
 			x = x - textWidth;

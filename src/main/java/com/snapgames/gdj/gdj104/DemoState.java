@@ -39,7 +39,7 @@ public class DemoState extends AbstractGameState implements GameState {
 
 	private GameStateManager gsm = null;
 
-	private Font font, debugFont;
+	private Font debugFont;
 
 	public DemoState(GameStateManager gsm) {
 		this.gsm = gsm;
@@ -57,7 +57,8 @@ public class DemoState extends AbstractGameState implements GameState {
 		debugFont = game.getRender().getFont().deriveFont(9f);
 
 		// prepare Game objects
-		player = new GameObject("player", game.getWidth() / 2, game.getHeight() / 2, 32, 32, 1, 1, Color.BLUE);
+		player = new GameObject("player", game.getWidth() / (2 * game.getScale()),
+				game.getHeight() / (2 * game.getScale()), 16, 16, 1, 1, Color.BLUE);
 		player.hSpeed = 0.6f;
 		player.vSpeed = 0.3f;
 		player.priority = 1;
@@ -70,10 +71,10 @@ public class DemoState extends AbstractGameState implements GameState {
 
 		for (int i = 0; i < 10; i++) {
 
-			GameObject entity = new GameObject("entity_" + i, game.getWidth() / 2, game.getHeight() / 2, 32, 32, 1, 1,
-					Color.RED);
-			entity.dx = ((float) Math.random() / 2) - 0.1f;
-			entity.dy = ((float) Math.random() / 2) - 0.1f;
+			GameObject entity = new GameObject("entity_" + i, game.getWidth() / (2 * game.getScale()),
+					game.getHeight() / (2 * game.getScale()), 16, 16, 1, 1, Color.RED);
+			entity.dx = ((float) Math.random() * 0.1f) - 0.05f;
+			entity.dy = ((float) Math.random() * 0.1f) - 0.05f;
 
 			if (i < 5) {
 				entity.layer = 2;
@@ -95,35 +96,12 @@ public class DemoState extends AbstractGameState implements GameState {
 	 */
 	@Override
 	public void input(Game game, InputHandler input) {
-		if (input.getKeyReleased(KeyEvent.VK_NUMPAD1) 
-				|| input.getKeyReleased(KeyEvent.VK_1)) {
-			layers[0] = !layers[0];
-		} else if (input.getKeyReleased(KeyEvent.VK_NUMPAD2) 
-				|| input.getKeyReleased(KeyEvent.VK_2)) {
-
-			layers[1] = !layers[1];
-		} else if (input.getKeyReleased(KeyEvent.VK_NUMPAD3) 
-				|| input.getKeyReleased(KeyEvent.VK_3)) {
-
-			layers[2] = !layers[2];
-
-		} else if (input.getKeyReleased(KeyEvent.VK_H)) {
-			isHelp = !isHelp;
-		}
-		inputPlayer(input);
-	}
-
-	/**
-	 * Manage input for Player.
-	 * 
-	 * @param player
-	 */
-	private void inputPlayer(InputHandler inputHandler) {
+		
 		// left / right
-		if (inputHandler.getKeyPressed(KeyEvent.VK_LEFT)) {
+		if (input.getKeyPressed(KeyEvent.VK_LEFT)) {
 			player.dx = -player.hSpeed;
 
-		} else if (inputHandler.getKeyPressed(KeyEvent.VK_RIGHT)) {
+		} else if (input.getKeyPressed(KeyEvent.VK_RIGHT)) {
 			player.dx = +player.hSpeed;
 		} else {
 			if (player.dx != 0) {
@@ -132,15 +110,17 @@ public class DemoState extends AbstractGameState implements GameState {
 		}
 
 		// up / down
-		if (inputHandler.getKeyPressed(KeyEvent.VK_UP)) {
+		if (input.getKeyPressed(KeyEvent.VK_UP)) {
 			player.dy = -player.vSpeed;
-		} else if (inputHandler.getKeyPressed(KeyEvent.VK_DOWN)) {
+		} else if (input.getKeyPressed(KeyEvent.VK_DOWN)) {
 			player.dy = +player.vSpeed;
 		} else {
 			if (player.dy != 0) {
 				player.dy *= 0.980f;
 			}
 		}
+
+		
 	}
 
 	/*
@@ -158,9 +138,9 @@ public class DemoState extends AbstractGameState implements GameState {
 
 		int winborder = 16;
 		int wl = winborder;
-		int wr = game.getWidth() - player.width - winborder;
+		int wr = game.getWidth() / game.getScale() - player.width - winborder;
 		int wt = winborder;
-		int wb = game.getHeight() - player.height - winborder;
+		int wb = game.getHeight() / game.getScale() - player.height - winborder;
 
 		// player limit to border window
 		if (player.x < wl)
@@ -172,6 +152,13 @@ public class DemoState extends AbstractGameState implements GameState {
 		if (player.y > wb)
 			player.y = wb;
 
+		if (player.dx != 0) {
+			player.dx *= 0.980f;
+		}
+		if (player.dy != 0) {
+			player.dy *= 0.980f;
+		}
+
 		for (GameObject o : entities) {
 			if (o.x <= wl || o.x >= wr) {
 				o.dx = -Math.signum(o.dx) * o.hSpeed;
@@ -180,6 +167,7 @@ public class DemoState extends AbstractGameState implements GameState {
 				o.dy = -Math.signum(o.dy) * o.vSpeed;
 			}
 		}
+
 	}
 
 	/*
@@ -219,21 +207,36 @@ public class DemoState extends AbstractGameState implements GameState {
 		g.setColor(new Color(.5f, .5f, .5f, .3f));
 		g.fillRect(x - 10, y - 16, 248, 132);
 		g.setColor(Color.WHITE);
-		RenderHelper.drawShadowString(g, "[" + RenderHelper.showBoolean(layers[0]) + "] 1: show/hide layer 1", x, y,
-				Color.WHITE, Color.BLACK);
-		RenderHelper.drawShadowString(g, "[" + RenderHelper.showBoolean(layers[1]) + "] 2: show/hide layer 2", x,
-				y + 16, Color.WHITE, Color.BLACK);
-		RenderHelper.drawShadowString(g, "[" + RenderHelper.showBoolean(layers[2]) + "] 3: show/hide layer 3", x,
-				y + 32, Color.WHITE, Color.BLACK);
-		RenderHelper.drawShadowString(g, "[" + RenderHelper.showBoolean(game.isDebug()) + "] D: display debug info", x,
-				y + 48, Color.WHITE, Color.BLACK);
-		RenderHelper.drawShadowString(g,
-				"[" + RenderHelper.showBoolean(game.isPause()) + "] P/PAUSE: pause the computation", x, y + 64,
-				Color.WHITE, Color.BLACK);
-		RenderHelper.drawShadowString(g, "[" + RenderHelper.showBoolean(isHelp) + "] H: display this help", x, y + 80,
-				Color.WHITE, Color.BLACK);
-		RenderHelper.drawShadowString(g, "   CTRL+S: save a screenshot", x, y + 96, Color.WHITE, Color.BLACK);
-		RenderHelper.drawShadowString(g, "   Q/ESCAPE: Escape the demo", x, y + 112, Color.WHITE, Color.BLACK);
+		String[] text = { "[" + RenderHelper.showBoolean(layers[0]) + "] 1: show/hide layer 1",
+				"[" + RenderHelper.showBoolean(layers[1]) + "] 2: show/hide layer 2",
+				"[" + RenderHelper.showBoolean(layers[2]) + "] 3: show/hide layer 3",
+				"[" + RenderHelper.showBoolean(game.isDebug()) + "] D: display debug info",
+				"[" + RenderHelper.showBoolean(game.isPause()) + "] P/PAUSE: pause the computation",
+				"[" + RenderHelper.showBoolean(isHelp) + "] H: display this help", "   CTRL+S: save a screenshot",
+				"   Q/ESCAPE: Escape the demo" };
+
+		RenderHelper.display(g, x, y, debugFont, text);
 	}
 
+	@Override
+	public void keyReleased(Game game, KeyEvent e) {
+		super.keyReleased(game, e);
+		switch (e.getKeyCode()) {
+		case KeyEvent.VK_NUMPAD1:
+		case KeyEvent.VK_1:
+			layers[0] = !layers[0];
+			break;
+		case KeyEvent.VK_NUMPAD2:
+		case KeyEvent.VK_2:
+			layers[1] = !layers[1];
+			break;
+		case KeyEvent.VK_NUMPAD3:
+		case KeyEvent.VK_3:
+			layers[2] = !layers[2];
+			break;
+		case KeyEvent.VK_H:
+			isHelp = !isHelp;
+			break;
+		}
+	}
 }

@@ -4,6 +4,7 @@
 package com.snapgames.gdj.gdj104.core.state;
 
 import java.awt.Graphics2D;
+import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -121,6 +122,18 @@ public class GameStateManager {
 
 	public Game getGame() {
 		return game;
+	}
+
+	public void keyTyped(KeyEvent e) {
+		currentState.keyTyped(this.getGame(),e);
+	}
+
+	public void keyPressed(KeyEvent e) {
+		currentState.keyPressed(this.getGame(),e);
+	}
+
+	public void keyReleased(KeyEvent e) {
+		currentState.keyReleased(this.getGame(),e);
 	}
 
 }
