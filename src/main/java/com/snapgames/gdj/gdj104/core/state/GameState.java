@@ -11,7 +11,6 @@ package com.snapgames.gdj.gdj104.core.state;
 
 import java.awt.Graphics2D;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 import com.snapgames.gdj.gdj104.core.Game;
 import com.snapgames.gdj.gdj104.core.InputHandler;
@@ -64,11 +63,11 @@ public interface GameState {
 	 * @param game
 	 */
 	public void dispose(Game game);
-	
+
 	public void keyTyped(Game game, KeyEvent e);
+
 	public void keyPressed(Game game, KeyEvent e);
+
 	public void keyReleased(Game game, KeyEvent e);
 
-	
-	
 }
