@@ -113,6 +113,36 @@ public class GameStateManager {
 		currentState.render(game, g);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.awt.event.KeyListener#keyTyped(java.awt.event.KeyEvent)
+	 */
+	public void keyTyped(KeyEvent e) {
+		currentState.keyTyped(this.getGame(), e);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.awt.event.KeyListener#keyPressed(java.awt.event.KeyEvent)
+	 */
+	public void keyPressed(KeyEvent e) {
+		currentState.keyPressed(this.getGame(), e);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see java.awt.event.KeyListener#keyReleased(java.awt.event.KeyEvent)
+	 */
+	public void keyReleased(KeyEvent e) {
+		currentState.keyReleased(this.getGame(), e);
+	}
+
+	/**
+	 * dispose all object.
+	 */
 	public void dispose() {
 		for (Entry<String, GameState> gs : states.entrySet()) {
 			gs.getValue().dispose(game);
@@ -120,20 +150,13 @@ public class GameStateManager {
 		}
 	}
 
+	/**
+	 * return the Game.
+	 * 
+	 * @return
+	 */
 	public Game getGame() {
 		return game;
-	}
-
-	public void keyTyped(KeyEvent e) {
-		currentState.keyTyped(this.getGame(),e);
-	}
-
-	public void keyPressed(KeyEvent e) {
-		currentState.keyPressed(this.getGame(),e);
-	}
-
-	public void keyReleased(KeyEvent e) {
-		currentState.keyReleased(this.getGame(),e);
 	}
 
 }
