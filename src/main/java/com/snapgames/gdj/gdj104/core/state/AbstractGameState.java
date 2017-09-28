@@ -22,6 +22,8 @@ import com.snapgames.gdj.gdj104.core.GameObject;
  */
 public abstract class AbstractGameState implements GameState {
 
+	protected GameStateManager gsm;
+	
 	protected boolean[] layers = new boolean[3];
 
 	/**
@@ -29,6 +31,11 @@ public abstract class AbstractGameState implements GameState {
 	 */
 	protected List<GameObject> objects = new ArrayList<>();
 
+	
+	public AbstractGameState(GameStateManager gsm) {
+		this.gsm = gsm;
+	}
+	
 	/**
 	 * Add an object to the Object list and sort them according to their layer and
 	 * priority.
@@ -62,10 +69,6 @@ public abstract class AbstractGameState implements GameState {
 		case KeyEvent.VK_ESCAPE:
 		case KeyEvent.VK_Q:
 			game.setExit(true);
-			break;
-		case KeyEvent.VK_PAUSE:
-		case KeyEvent.VK_P:
-			game.requestPause();
 			break;
 		case KeyEvent.VK_F9:
 		case KeyEvent.VK_D:

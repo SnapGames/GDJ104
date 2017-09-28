@@ -37,12 +37,10 @@ public class DemoState extends AbstractGameState implements GameState {
 	 */
 	private boolean isHelp = false;
 
-	private GameStateManager gsm = null;
-
 	private Font debugFont;
 
 	public DemoState(GameStateManager gsm) {
-		this.gsm = gsm;
+		super(gsm);
 	}
 
 	/*
@@ -96,7 +94,7 @@ public class DemoState extends AbstractGameState implements GameState {
 	 */
 	@Override
 	public void input(Game game, InputHandler input) {
-		
+
 		// left / right
 		if (input.getKeyPressed(KeyEvent.VK_LEFT)) {
 			player.dx = -player.hSpeed;
@@ -120,7 +118,6 @@ public class DemoState extends AbstractGameState implements GameState {
 			}
 		}
 
-		
 	}
 
 	/*
@@ -204,9 +201,7 @@ public class DemoState extends AbstractGameState implements GameState {
 	}
 
 	public void displayHelp(Game game, Graphics2D g, int x, int y) {
-		g.setColor(new Color(.5f, .5f, .5f, .3f));
-		g.fillRect(x - 10, y - 16, 248, 132);
-		g.setColor(Color.WHITE);
+
 		String[] text = { "[" + RenderHelper.showBoolean(layers[0]) + "] 1: show/hide layer 1",
 				"[" + RenderHelper.showBoolean(layers[1]) + "] 2: show/hide layer 2",
 				"[" + RenderHelper.showBoolean(layers[2]) + "] 3: show/hide layer 3",
@@ -236,6 +231,10 @@ public class DemoState extends AbstractGameState implements GameState {
 			break;
 		case KeyEvent.VK_H:
 			isHelp = !isHelp;
+			break;
+		case KeyEvent.VK_PAUSE:
+		case KeyEvent.VK_P:
+			game.requestPause();
 			break;
 		}
 	}
